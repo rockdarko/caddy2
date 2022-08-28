@@ -4,7 +4,7 @@ caddy2_tz: 'America/Toronto'
 caddy2_state: present
 caddy2_container_name: caddy2
 
-caddy2_docker_image: caddy2
+caddy2_docker_image: caddy
 caddy2_docker_image_version: latest
 
 caddy2_storage_path: /opt/caddy2
