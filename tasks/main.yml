@@ -35,7 +35,7 @@
 
 - name: setting docker port mappings
   set_fact:
-    caddy2_port_mappings:
+    caddy2_port_mapping:
       - "{{ caddy2_port_http }}:{{ caddy2_port_http }}"
       - "{{ caddy2_port_https }}:{{ caddy2_port_https }}"
   when:
