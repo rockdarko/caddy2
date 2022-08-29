@@ -57,4 +57,5 @@
     ports: "{{ caddy2_port_mapping | default([]) }}"
     memory_swappiness: 1
     etc_hosts: "{{ caddy2_etc_hosts | default(omit) }}"
+    volumes: "{{ caddy2_dir_mappings | default(omit) }}"
   register: caddy2_container
