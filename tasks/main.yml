@@ -22,6 +22,13 @@
     mode: "u=rwX,g=rX,o=rX"
     owner: "{{ caddy2_file_owner | default('root') }}"
     group: "{{ caddy2_file_group | default('root') }}"
+  when: caddy2_state == "present"
+
+- name: removing Caddyfile
+  file:
+    path: "{{ caddy2_storage_path }}/Caddyfile"
+    state: absent
+  when: caddy2_state == "absent"
 
 - name: setting docker volume mappings
   set_fact:
