@@ -15,6 +15,14 @@
     state: "{{ caddy2_state if caddy2_state != 'present' else 'directory' }}"
   with_items: "{{ caddy2_volume_dirs }}"
 
+- name: copying Caddyfile
+  template:
+    src: Caddyfile.j2
+    dest: "{{ caddy2_storage_path }}/Caddyfile"
+    mode: "u=rwX,g=rX,o=rX"
+    owner: "{{ caddy2_file_owner | default('root') }}"
+    group: "{{ caddy2_file_group | default('root') }}"
+
 - name: setting docker volume mappings
   set_fact:
     caddy2_dir_mappings:

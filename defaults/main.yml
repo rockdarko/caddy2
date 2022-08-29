@@ -9,8 +9,9 @@ caddy2_docker_image_version: latest
 
 caddy2_storage_path: /opt/caddy2
 caddy2_volume_dirs: 
-  - "{{ caddy2_storage_path }}:/data"
-  - "{{ caddy2_storage_path }}:/config"
+  - "{{ caddy2_storage_path }}/data:/data"
+  - "{{ caddy2_storage_path }}/config:/config"
+  - "{{ caddy2_storage_path }}/Caddyfile:/etc/caddy/Caddyfile"
 
 caddy2_port_http: 80
 caddy2_port_http: 443
