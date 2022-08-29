@@ -1,3 +1,4 @@
 transmission.darko.vision:80 {
-    reverse_proxy http://locke.cellardoor.darko.vision:9025/transmission/web/
+    rewrite /transmission/web/ http://locke.cellardoor.darko.vision
+    reverse_proxy http://locke.cellardoor.darko.vision:9025
 }
