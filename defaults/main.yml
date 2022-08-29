@@ -13,4 +13,4 @@ caddy2_volume_dirs:
   - "{{ caddy2_storage_path }}/config"
 
 caddy2_port_http: 80
-caddy2_port_http: 443
+caddy2_port_https: 443
