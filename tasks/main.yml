@@ -35,7 +35,7 @@
     caddy2_dir_mappings:
       - "{{ caddy2_storage_path }}/data:/data:Z"
       - "{{ caddy2_storage_path }}/config:/config:Z"
-      - "{{ caddy2_storage_path }}/Caddyfile:/etc/caddy/Caddyfile:Z"
+#      - "{{ caddy2_storage_path }}/Caddyfile:/etc/caddy/Caddyfile:Z"
   when: 
     - caddy2_storage_path is defined
     - caddy2_storage_path | length > 0
