@@ -15,14 +15,14 @@
     state: "{{ caddy2_state if caddy2_state != 'present' else 'directory' }}"
   with_items: "{{ caddy2_volume_dirs }}"
 
-#- name: copying Caddyfile
-#  template:
-#    src: Caddyfile.j2
-#    dest: "{{ caddy2_storage_path }}/Caddyfile"
-#    mode: "u=rwX,g=rX,o=rX"
-#    owner: "{{ caddy2_file_owner | default('root') }}"
-#    group: "{{ caddy2_file_group | default('root') }}"
-#  when: caddy2_state == "present"
+- name: copying Caddyfile
+  template:
+    src: Caddyfile.j2
+    dest: "{{ caddy2_storage_path }}/Caddyfile"
+    mode: "u=rwX,g=rX,o=rX"
+    owner: "{{ caddy2_file_owner | default('root') }}"
+    group: "{{ caddy2_file_group | default('root') }}"
+  when: caddy2_state == "present"
 
 - name: removing Caddyfile
   file:
@@ -35,7 +35,7 @@
     caddy2_dir_mappings:
       - "{{ caddy2_storage_path }}/data:/data:Z"
       - "{{ caddy2_storage_path }}/config:/config:Z"
-#      - "{{ caddy2_storage_path }}/Caddyfile:/etc/caddy/Caddyfile:Z"
+      - "{{ caddy2_storage_path }}/Caddyfile:/etc/caddy/Caddyfile:Z"
   when: 
     - caddy2_storage_path is defined
     - caddy2_storage_path | length > 0

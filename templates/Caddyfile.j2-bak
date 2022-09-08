@@ -1,0 +1,15 @@
+{
+http_port 80
+https_port 443
+debug
+admin 0.0.0.0:2019
+}
+
+#transmission.darko.vision:443 {
+##    rewrite /transmission/web/ http://locke.cellardoor.darko.vision
+#    reverse_proxy http://locke.cellardoor.darko.vision:9025
+#}
+
+#jenkins.darko.vision:443 {
+#    reverse_proxy http://fujin.cellardoor.darko.vision:9999
+#}
