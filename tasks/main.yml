@@ -45,6 +45,7 @@
     caddy2_port_mapping:
       - "{{ caddy2_port_http }}:{{ caddy2_port_http }}"
       - "{{ caddy2_port_https }}:{{ caddy2_port_https }}"
+      - "{{ caddy2_port_api }}":"{{ caddy2_port_api }}"
   when:
     - caddy2_port_http is defined
     - caddy2_port_http | string | length > 0

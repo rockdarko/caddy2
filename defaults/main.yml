@@ -14,3 +14,4 @@ caddy2_volume_dirs:
 
 caddy2_port_http: 80
 caddy2_port_https: 443
+caddy2_port_api: 2019
