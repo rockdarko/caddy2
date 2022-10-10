@@ -40,3 +40,18 @@
   systemd:
     name: caddy
     state: stopped
+
+- name: copying Caddyfile
+  template:
+    src: Caddyfile.j2
+    dest: "/etc/caddy/Caddyfile"
+    mode: "u=rwX,g=rX,o=rX"
+    owner: "{{ caddy2_file_owner | default('root') }}"
+    group: "{{ caddy2_file_group | default('root') }}"
+  when: caddy2_state == "present"
+
+- name: starting and enabling caddy service
+  systemd:
+    name: caddy
+    state: started
+    enabled: yes
