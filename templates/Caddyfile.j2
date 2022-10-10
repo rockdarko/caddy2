@@ -3,4 +3,10 @@ http_port 80
 https_port 443
 debug
 admin 0.0.0.0:2019
+log {
+	output file /var/log/caddy.log {
+		roll_size 1gb
+		roll_keep 5
+		roll_keep_for 720h
+	}
 }
