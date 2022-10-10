@@ -19,7 +19,8 @@
 
 - name: adding caddy gpg key
   become: yes
-  command: "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg -r --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg"
+  shell: |
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg -r --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
   when: ansible_facts['os_family'] == "Debian"
 
 - name: configuring caddy2 repository
