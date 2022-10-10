@@ -1,73 +1,11 @@
 ---
 # tasks file for caddy2
-- name: setting environment variables
-  set_fact:
-    caddy2_env:
-      TZ: "{{ caddy2_tz }}"
 
-- name: creating folders for caddy2 persisting data
-  file:
-    path: "{{ item }}"
-    mode: "u=rwX,g=rX,o=rX"
-    owner: "{{ caddy2_file_owner | default('root') }}"
-    group: "{{ caddy2_file_group | default('root') }}"
-    recurse: "{{ true if caddy2_state == 'present' else omit }}"
-    state: "{{ caddy2_state if caddy2_state != 'present' else 'directory' }}"
-  with_items: "{{ caddy2_volume_dirs }}"
-
-- name: copying Caddyfile
-  template:
-    src: Caddyfile.j2
-    dest: "{{ caddy2_storage_path }}/Caddyfile"
-    mode: "u=rwX,g=rX,o=rX"
-    owner: "{{ caddy2_file_owner | default('root') }}"
-    group: "{{ caddy2_file_group | default('root') }}"
-  when: caddy2_state == "present"
-
-- name: removing Caddyfile
-  file:
-    path: "{{ caddy2_storage_path }}/Caddyfile"
-    state: absent
-  when: caddy2_state == "absent"
-
-- name: setting docker volume mappings
-  set_fact:
-    caddy2_dir_mappings:
-      - "{{ caddy2_storage_path }}/data:/data:Z"
-      - "{{ caddy2_storage_path }}/config:/config:Z"
-      - "{{ caddy2_storage_path }}/Caddyfile:/etc/caddy/Caddyfile:Z"
-  when: 
-    - caddy2_storage_path is defined
-    - caddy2_storage_path | length > 0
-
-- name: setting docker port mappings
-  set_fact:
-    caddy2_port_mapping:
-      - "{{ caddy2_port_http }}:{{ caddy2_port_http }}"
-      - "{{ caddy2_port_https }}:{{ caddy2_port_https }}"
-      - "{{ caddy2_port_api }}:{{ caddy2_port_api }}"
-  when:
-    - caddy2_port_http is defined
-    - caddy2_port_http | string | length > 0
-    - caddy2_port_https is defined
-    - caddy2_port_https | string | length > 0
-
-- name: creating containers
-  docker_container:
-    name: "{{ caddy2_container_name }}"
-    image: "{{ caddy2_docker_image }}:{{ caddy2_docker_image_version }}"
-    state: "{{ caddy2_state if caddy2_state != 'present' else 'started' }}"
-    log_driver: "{{ caddy2_log_driver | default(omit) }}"
-    log_options: "{{ caddy2_docker_log_options | default(omit) }}"
-    pull: "{{ caddy2_image_pull | default(True) }}"
-    restart_policy: unless-stopped
-    env: "{{ caddy2_env }}"
-    ports: "{{ caddy2_port_mapping | default([]) }}"
-    memory_swappiness: 1
-    etc_hosts: "{{ caddy2_etc_hosts | default(omit) }}"
-    volumes: "{{ caddy2_dir_mappings | default(omit) }}"
-  register: caddy2_container
-
-- name: debug container
-  debug:
-    msg: "{{ caddy2_container }}"
+- name: installing pre-requisits (debian)
+  apt:
+    name:
+      - debian-keyring
+      - debian-archive-keyring
+      - apt-transport-https
+  state: present
+  update_cache: yes
