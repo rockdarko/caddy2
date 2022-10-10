@@ -22,3 +22,15 @@
     url: https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt
     dest: /etc/apt/sources.list.d/caddy-stable.list
     mode: '0644'
+
+- name: installing caddy2 (debian)
+  apt:
+    name: caddy
+    state: present
+    update_cache: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: stopping caddy service
+  systemd:
+    name: caddy
+    state: stopped
