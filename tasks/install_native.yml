@@ -10,3 +10,15 @@
     state: present
     update_cache: yes
   when: ansible_facts['os_family'] == "Debian"
+
+- name: obtaining caddy2 apt key
+  ansible.builtin.get_url:
+    url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+    dest: /etc/apt/trusted.gpg.d/caddy-stable.asc
+    mode: '0644'
+
+- name: configuring caddy2 repository
+  ansible.builtin.get_url:
+    url: https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt
+    dest: /etc/apt/sources.list.d/caddy-stable.list
+    mode: '0644'
