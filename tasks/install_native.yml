@@ -55,3 +55,4 @@
     name: caddy
     state: started
     enabled: yes
+  when: caddy2_state == "present"
