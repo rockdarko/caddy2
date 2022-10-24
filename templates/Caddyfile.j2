@@ -4,11 +4,11 @@ https_port 443
 debug
 admin 0.0.0.0:2019
 log {
-	output file /var/log/caddy.log {
-		roll_size 1gb
-		roll_keep 5
-		roll_keep_for 720h
-	}
+    output file /var/log/caddy/caddy.log
+ }
+}
+
+
 
 transmission.darko.vision:443 {
 ##    rewrite /transmission/web/ http://locke.cellardoor.darko.vision
@@ -16,7 +16,7 @@ transmission.darko.vision:443 {
 }
 
 jenkins.darko.vision:443 {
-    reverse_proxy http://jenkins.cellardoor.darko.vision:8080
+    reverse_proxy http://leviathan.cellardoor.darko.vision:8080
 }
 
 odin.darko.vision:443 {
