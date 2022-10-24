@@ -50,6 +50,29 @@
     group: "{{ caddy2_file_group | default('root') }}"
   when: caddy2_state == "present"
 
+- name: ensure /usr/local/share/ca-certificates exists (debian)
+  file:
+    path: /usr/local/share/ca-certificates
+    state: directory
+    mode: '0644'
+
+- name: send internal ca's to be trusted
+  copy:
+    src: "{{ ca_trusted }}"
+    dest: /usr/local/share/ca-certificates/
+  loop: "{{ internal_ca_certs }}"
+  loop_control: 
+    loop_var: ca_trusted
+  when: internal_ca_certs is defined
+
+- name: trust internal CA's
+  shell: |
+    update-ca-certificates
+  loop: "{{ internal_ca_certs }}"
+  loop_control: 
+    loop_var: ca_trusted
+  when: internal_ca_certs is defined
+
 - name: starting and enabling caddy service
   systemd:
     name: caddy

@@ -10,3 +10,23 @@ log {
 		roll_keep_for 720h
 	}
 }
+
+transmission.darko.vision:443 {
+##    rewrite /transmission/web/ http://locke.cellardoor.darko.vision
+    reverse_proxy http://locke.cellardoor.darko.vision:9025
+}
+
+jenkins.darko.vision:443 {
+    reverse_proxy http://jenkins.cellardoor.darko.vision:8080
+}
+
+odin.darko.vision:443 {
+    reverse_proxy https://odin.cellardoor.darko.vision
+}
+
+tonberry.darko.vision:443
+    reverse_proxy https://tonberry.cellardoor.darko.vision:8006
+    log {
+        output file /var/log/caddy/tonberry.log
+    }
+}
