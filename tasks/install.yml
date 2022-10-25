@@ -23,19 +23,19 @@
       url: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
       state: present
 
-#- name: configuring caddy2 repository
-#  become: yes
-#  ansible.builtin.get_url:
-#    url: https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt
-#    dest: /etc/apt/sources.list.d/caddy-stable.list
-#    mode: '0644'
-
 - name: configuring caddy2 repository
   become: yes
-  apt_repository:
-      repo: "deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
-      state: present
-      update_cache: true
+  ansible.builtin.get_url:
+    url: https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt
+    dest: /etc/apt/sources.list.d/caddy-stable.list
+    mode: '0644'
+
+#- name: configuring caddy2 repository
+#  become: yes
+#  apt_repository:
+#      repo: "deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
+#      state: present
+#      update_cache: true
 
 - name: installing caddy2
   become: yes
