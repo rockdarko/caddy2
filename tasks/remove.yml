@@ -1,5 +1,30 @@
 ---
 # tasks file for caddy2
+- name: stopping and disabling caddy service
+  become: yes
+  systemd:
+    name: caddy
+    state: stopped
+    enabled: no
+  tags:
+    - service
+  when:
+    - caddy2_service_type is defined
+    - caddy2_service_type != 'api'
+  ignore_errors: true
+
+- name: stopping and disabling caddy service
+  become: yes
+  systemd:
+    name: caddy-api
+    state: stopped
+    enabled: no
+  tags:
+    - service
+  when:
+    - caddy2_service_type is defined
+    - caddy2_service_type == 'caddy-api'
+  ignore_errors: true
 
 - name: stopping caddy service
   become: yes
