@@ -1,9 +1,9 @@
 ---
 # tasks file for caddy2
 - name: loading native tasks
-  include_tasks: install_native.yml
-  when: caddy2_install_type == "native"
+  include_tasks: install.yml
+  when: caddy2_state == 'present'
 
 - name: loading docker install tasks
-  include_tasks: install_docker.yml
-  when: caddy2_install_type == "docker"
+  include_tasks: remove.yml
+  when: caddy2_state != 'present'

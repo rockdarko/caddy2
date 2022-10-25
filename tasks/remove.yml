@@ -1,0 +1,52 @@
+---
+# tasks file for caddy2
+
+- name: stopping caddy service
+  become: yes
+  systemd:
+    name: caddy
+    state: stopped
+
+- name: removing caddy2
+  become: yes
+  apt:
+    name: caddy
+    state: absent
+    update_cache: yes
+
+- name: removing config
+  become: yes
+  file:
+    path: "/etc/caddy/"
+    state: absent
+
+- name: remove internal ca's that were trusted
+  become: yes
+  file:
+    path: "/usr/local/share/ca-certificates/{{ ca_trusted }}"
+    state: absent
+  loop: "{{ internal_ca_certs }}"
+  loop_control: 
+    loop_var: ca_trusted
+  when: 
+    - internal_ca_certs is defined
+
+- name: reload trusted ca's
+  become: yes
+  shell: |
+    update-ca-certificates
+  when: 
+    - internal_ca_certs is defined
+
+- name: removing caddy2 repository
+  become: yes
+  apt_repository:
+      repo: "deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
+      state: absent
+      update_cache: true
+  
+- name: removing caddy apt key
+  become: yes
+  apt_key:
+      url: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
+      state: absent
