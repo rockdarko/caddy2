@@ -11,17 +11,17 @@
     state: present
     update_cache: yes
 
-#- name: adding caddy apt key
-#  become: yes
-#  shell: |
-#    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-#  when: ansible_facts['os_family'] == "Debian"
-
 - name: adding caddy apt key
   become: yes
-  apt_key:
-      url: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
-      state: present
+  shell: |
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  when: ansible_facts['os_family'] == "Debian"
+
+#- name: adding caddy apt key
+#  become: yes
+#  apt_key:
+#      url: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
+#      state: present
 
 - name: configuring caddy2 repository
   become: yes
