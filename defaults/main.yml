@@ -18,7 +18,7 @@ caddy2_port_api: 2019
 
 caddy2_service_type: caddy
 
-log: /var/log/caddy/caddy.log
+logpath: /var/log/caddy
 debug: false
 http_port: 80
 https_port: 443
