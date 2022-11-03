@@ -1,31 +1,18 @@
 {
-http_port 80
-https_port 443
-debug
-admin 0.0.0.0:2019
+http_port {{ http_port }}
+https_port {{ https_port }}
+{% if debug is defined and debug == 'True' %}debug{% endif %}
+admin {{ admin_listener }}
 log {
-    output file /var/log/caddy/caddy.log
+    output file {{ logpath }}/caddy.log
  }
 }
 
-
-
-transmission.darko.vision:443 {
-##    rewrite /transmission/web/ http://locke.cellardoor.darko.vision
-    reverse_proxy http://locke.cellardoor.darko.vision:9025
-}
-
-jenkins.darko.vision:443 {
-    reverse_proxy http://leviathan.cellardoor.darko.vision:8080
-}
-
-odin.darko.vision:443 {
-    reverse_proxy https://odin.cellardoor.darko.vision
-}
-
-tonberry.darko.vision:443
-    reverse_proxy https://tonberry.cellardoor.darko.vision:8006
+{% for site in sites %}
+{{ site.host }} {
+    {{ site.type }} {{ site.internal }}
     log {
-        output file /var/log/caddy/tonberry.log
+        output file {{ logpath }}/{{ site.name }}.log
     }
 }
+{% endfor %}

@@ -3,13 +3,9 @@ http_port 80
 https_port 443
 debug
 admin 0.0.0.0:2019
-}
-
-tls {
-	client_auth {
-		mode                 require_and_verify
-		trusted_ca_cert_file /etc/ssl/cellardoor-cert.pem
-	}
+log {
+    output file /var/log/caddy/caddy.log
+ }
 }
 
 transmission.darko.vision:443 {
@@ -18,9 +14,16 @@ transmission.darko.vision:443 {
 }
 
 jenkins.darko.vision:443 {
-    reverse_proxy http://fujin.cellardoor.darko.vision:9999
+    reverse_proxy http://rikku.cellardoor.darko.vision:8081
 }
 
 odin.darko.vision:443 {
     reverse_proxy https://odin.cellardoor.darko.vision
+}
+
+tonberry.darko.vision:443
+    reverse_proxy https://tonberry.cellardoor.darko.vision:8006
+    log {
+        output file /var/log/caddy/tonberry.log
+    }
 }
