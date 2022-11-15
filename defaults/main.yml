@@ -22,4 +22,4 @@ logpath: /var/log/caddy
 debug: false
 http_port: 80
 https_port: 443
-admin_listener: 0.0.0.0:2019
+admin_listener: "0.0.0.0:{{ caddy2_port_api }}"

@@ -1,31 +1,81 @@
-Role Name
+caddy2
 =========
 
-A brief description of the role goes here.
+Role to deploy caddy2 
 
 Requirements
 ------------
 
 Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
+
+Upcoming features
+------------
+docker support
+
+
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+caddy2_tz: timezone
+caddy2_state: (present or absent)
+caddy2_port_http: listen port for http connections
+caddy2_port_https: listen port for tls connections
+caddy2_port_api: listen port for rest api
+
+caddy2_service_type: caddy or caddy-api (caddy-api persists changes made through api while caddy doesn't - both support simultanious api and Caddyfile configs but it's not advised to use both methods in a single setup).
+
+logpath: directory to store logs
+debug: false
+http_port: 80
+https_port: 443
+
+internal_ca_certs: list of CA's to trust as filename of CA certificate that needs to be in the role's files folder and have the .crt extension.
+
+sites: dictionary of sites (this is only if using caddyfile for config - do not use in case of caddy-api).
+  - name: site name
+    host: common hostname - including port
+    type: reverse_proxy or rewrite (see official caddy documentation)
+    internal: where to redirect request internally - including port.
+
+Exmaple inventory
+------------
+
+caddy2_tz: 'America/Toronto'
+caddy2_state: present
+
+caddy2_port_http: 80
+caddy2_port_https: 443
+caddy2_port_api: 2019
+
+logpath: /var/log/caddy
+debug: false
+http_port: 80
+https_port: 443
+admin_listener: "0.0.0.0:{{ caddy2_port_api }}"
+
+internal_ca_certs:
+ - cellardoor.crt
+
+sites:
+  - name: transmission.somesite.com
+    host: transmission.somesite.com:443
+    type: reverse_proxy
+    internal: http://locke.internal.somesite.com:9025
+  - name: jenkins.somesite.com
+    host: jenkins.somesite.com:443
+    type: reverse_proxy
+    internal: http://rikku.internal.somesite.com:8081
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Ubuntu / Debian
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+Just invoke role and use inventory for all paramters.
 
 License
 -------
@@ -35,4 +85,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Rock Martel-Langlois (rock@geekreboot.ca)
