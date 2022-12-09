@@ -9,8 +9,9 @@ Ubuntu/Debian
 
 Upcoming features
 ------------
-docker support - currently only supports native package installation.
+- docker support - currently only supports native package installation.
 
+- template expansion: caddyfile template currently supports basic features to act as reserve_proxy or url rewrite
 
 Role Variables
 --------------
