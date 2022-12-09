@@ -5,13 +5,11 @@ Role to deploy caddy2
 
 Requirements
 ------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
+Ubuntu/Debian
 
 Upcoming features
 ------------
-docker support
+docker support - currently only supports native package installation.
 
 
 Role Variables
@@ -65,7 +63,7 @@ sites:
   - name: jenkins.somesite.com
     host: jenkins.somesite.com:443
     type: reverse_proxy
-    internal: http://rikku.internal.somesite.com:8081
+    internal: https://rikku.internal.somesite.com:8081
 
 Dependencies
 ------------
